@@ -38,6 +38,12 @@ struct ContentView: View {
                 ContactUsView()
             case .gameRules:
                 GameRulesView()
+            case .main(let ext):
+                MainView(item: ext)
+                    .background(.black)
+                    .onAppear {
+                        OrientationLock.set(.all)
+                    }
             default:
                 EmptyView()
             }

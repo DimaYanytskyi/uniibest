@@ -17,6 +17,23 @@ struct GoalMakerView: View {
     @State private var showInfoAlert = false
     @State private var isCountingDown = false
     
+    var goalkeeperRotation: Angle {
+        switch goalkeeperPosition {
+        case 0:
+            return .degrees(-45)
+        case 1:
+            return .degrees(0)
+        case 2:
+            return .degrees(45)
+        case 3:
+            return .degrees(-90)
+        case 4:
+            return .degrees(90)
+        default:
+            return .degrees(0)
+        }
+    }
+    
     let targetPositions: [CGPoint] = [
         CGPoint(x: 0.32, y: 0.3),
         CGPoint(x: 0.5, y: 0.3),
@@ -86,6 +103,7 @@ struct GoalMakerView: View {
                     Image(showGoalkeeper ? "catching" : "waiting")
                         .resizable()
                         .frame(width: showGoalkeeper ? 60 : 80, height: showGoalkeeper ? 140 : 100)
+                        .rotationEffect(goalkeeperRotation)
                         .position(x: geo.size.width * targetPositions[goalkeeperPosition].x,
                                   y: geo.size.height * targetPositions[goalkeeperPosition].y)
                         .transition(.scale)
@@ -151,7 +169,7 @@ struct GoalMakerView: View {
     }
 
     func kickBall(to index: Int, width: CGFloat, height: CGFloat) {
-        withAnimation(.easeIn(duration: 0.4)) {
+        withAnimation(.easeOut(duration: 0.25)) {
             goalkeeperPosition = Int.random(in: 0..<targetPositions.count-1)
         }
         showGoalkeeper = true
@@ -163,7 +181,7 @@ struct GoalMakerView: View {
         let offset = CGSize(width: target.x - ballStart.x,
                             height: target.y - ballStart.y)
 
-        withAnimation(.easeIn(duration: 0.4)) {
+        withAnimation(.easeOut(duration: 0.3)) {
             ballOffset = offset
         }
 

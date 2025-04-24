@@ -17,6 +17,7 @@ enum NavigationDestinations {
     case gameRules
     case contactUs
     case notifications
+    case main(String)
 }
 
 class Navigation : ObservableObject {
